@@ -12,14 +12,24 @@
             font-family: 'Arial', sans-serif;
         }
 
-        /* Background */
+        /* Background with Law Theme */
         body {
-            background-color: #e0e0e0; /* Base color for now, can be updated later */
+            background: url('https://cdn.pixabay.com/photo/2017/03/06/23/56/gavel-2128246_1280.jpg') no-repeat center center/cover;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
+        }
+
+        /* Dark overlay for better readability */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
         }
 
         /* Login Box */
@@ -81,26 +91,23 @@
             background: #1c2833;
         }
 
-        /* Forgot Password */
-        .forgot-password {
-            display: block;
-            margin-top: 10px;
-            color: #2c3e50;
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        .forgot-password:hover {
-            text-decoration: underline;
+        /* Success Message */
+        .success-message {
+            display: none;
+            margin-top: 15px;
+            color: green;
+            font-size: 16px;
         }
 
     </style>
 </head>
 <body>
 
+    <div class="overlay"></div>
+
     <div class="login-container">
         <h2>⚖️ SLS Associate - Login</h2>
-        <form>
+        <form onsubmit="return showSuccessMessage(event)">
             <div class="input-box">
                 <label for="username">Username</label>
                 <input type="text" id="username" placeholder="Enter your username" required>
@@ -110,9 +117,17 @@
                 <input type="password" id="password" placeholder="Enter your password" required>
             </div>
             <button type="submit" class="login-btn">Login</button>
-            <a href="forgot-password.html" class="forgot-password">Forgot Password?</a>
+            <p class="success-message" id="successMessage">✅ Login Successful!</p>
         </form>
     </div>
+
+    <script>
+        function showSuccessMessage(event) {
+            event.preventDefault(); // Prevent page reload
+            document.getElementById("successMessage").style.display = "block"; // Show message
+            return false;
+        }
+    </script>
 
 </body>
 </html>
