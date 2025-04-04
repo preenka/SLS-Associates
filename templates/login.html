@@ -12,46 +12,33 @@
             font-family: 'Arial', sans-serif;
         }
 
-        /* Background with Law Theme */
         body {
-            background: url('https://cdn.pixabay.com/photo/2017/03/06/23/56/gavel-2128246_1280.jpg') no-repeat center center/cover;
+            background-image: url("{{ url_for('static', filename='background.jpeg') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative;
         }
 
-        /* Dark overlay for better readability */
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        /* Login Box */
         .login-container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 30px;
+            background: white;
+            padding: 40px;
             border-radius: 10px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-            width: 380px;
+            width: 460px;
             text-align: center;
-            position: relative;
-            z-index: 1;
         }
 
-        /* Title */
         .login-container h2 {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             color: #2c3e50;
-            font-size: 22px;
+            font-size: 28px;
+            font-weight: bold;
         }
 
-        /* Input Fields */
         .input-box {
             width: 100%;
             margin-bottom: 15px;
@@ -67,14 +54,13 @@
 
         .input-box input {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             border: 1px solid #bdc3c7;
             border-radius: 5px;
-            font-size: 16px;
+            font-size: 14px;
             background: #ecf0f1;
         }
 
-        /* Login Button */
         .login-btn {
             width: 100%;
             padding: 12px;
@@ -91,43 +77,51 @@
             background: #1c2833;
         }
 
-        /* Success Message */
-        .success-message {
-            display: none;
+        .message {
             margin-top: 15px;
-            color: green;
             font-size: 16px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 5px;
         }
 
+        .success {
+            color: green;
+            background-color: #d4edda;
+        }
+
+        .error {
+            color: red;
+            background-color: #f8d7da;
+        }
     </style>
 </head>
 <body>
 
-    <div class="overlay"></div>
+<div class="login-container">
+    <h2>⚖️ SLS Associate - Login</h2>
 
-    <div class="login-container">
-        <h2>⚖️ SLS Associate - Login</h2>
-        <form onsubmit="return showSuccessMessage(event)">
-            <div class="input-box">
-                <label for="username">Username</label>
-                <input type="text" id="username" placeholder="Enter your username" required>
-            </div>
-            <div class="input-box">
-                <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Enter your password" required>
-            </div>
-            <button type="submit" class="login-btn">Login</button>
-            <p class="success-message" id="successMessage">✅ Login Successful!</p>
-        </form>
-    </div>
+    <!-- Flash messages from Flask -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <p class="message {{ category }}">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
-    <script>
-        function showSuccessMessage(event) {
-            event.preventDefault(); // Prevent page reload
-            document.getElementById("successMessage").style.display = "block"; // Show message
-            return false;
-        }
-    </script>
+    <form method="POST" action="/">
+        <div class="input-box">
+            <label for="username">Username</label>
+            <input type="text" name="username" placeholder="Enter your username" required>
+        </div>
+        <div class="input-box">
+            <label for="password">Password</label>
+            <input type="password" name="password" placeholder="Enter your password" required>
+        </div>
+        <button type="submit" class="login-btn">Login</button>
+    </form>
+</div>
 
 </body>
 </html>
