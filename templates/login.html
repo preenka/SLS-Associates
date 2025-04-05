@@ -13,10 +13,7 @@
         }
 
         body {
-            background-image: url("{{ url_for('static', filename='background.jpeg') }}");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background-color: #f4f4f4;
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -25,18 +22,17 @@
 
         .login-container {
             background: white;
-            padding: 40px;
+            padding: 30px;
             border-radius: 10px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-            width: 460px;
+            width: 380px;
             text-align: center;
         }
 
         .login-container h2 {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             color: #2c3e50;
-            font-size: 28px;
-            font-weight: bold;
+            font-size: 22px;
         }
 
         .input-box {
@@ -54,10 +50,10 @@
 
         .input-box input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #bdc3c7;
             border-radius: 5px;
-            font-size: 14px;
+            font-size: 16px;
             background: #ecf0f1;
         }
 
@@ -81,47 +77,42 @@
             margin-top: 15px;
             font-size: 16px;
             font-weight: bold;
-            padding: 10px;
-            border-radius: 5px;
         }
 
         .success {
             color: green;
-            background-color: #d4edda;
         }
 
         .error {
             color: red;
-            background-color: #f8d7da;
         }
     </style>
 </head>
 <body>
 
-<div class="login-container">
-    <h2>⚖️ SLS Associate - Login</h2>
+    <div class="login-container">
+        <h2>⚖️ SLS Associate - Login</h2>
+        <form action="/login" method="POST">
+            <div class="input-box">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+            </div>
+            <div class="input-box">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="login-btn">Login</button>
 
-    <!-- Flash messages from Flask -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <p class="message {{ category }}">{{ message }}</p>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-
-    <form method="POST" action="/">
-        <div class="input-box">
-            <label for="username">Username</label>
-            <input type="text" name="username" placeholder="Enter your username" required>
-        </div>
-        <div class="input-box">
-            <label for="password">Password</label>
-            <input type="password" name="password" placeholder="Enter your password" required>
-        </div>
-        <button type="submit" class="login-btn">Login</button>
-    </form>
-</div>
+            <!-- Show Flask flash messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <p class="message {{ category }}">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </form>
+    </div>
 
 </body>
 </html>
