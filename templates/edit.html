@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Case</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url("{{ url_for('static', filename='editbg.jpeg') }}") no-repeat center center fixed;
+            background-size: cover;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .logo img {
+            height: 90px;
+            width: auto;
+        }
+
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="SLS Logo">
+    </div>
+
+    <div class="form-container">
+        <h2>Edit Case</h2>
+        <form method="POST">
+            <label for="client_name">Client Name</label>
+            <input type="text" id="client_name" name="client_name" value="{{ case.client_name }}" required>
+
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" value="{{ case.title }}" required>
+
+            <label for="status">Status</label>
+            <select id="status" name="status" required>
+                <option value="Open" {% if case.status == 'Open' %}selected{% endif %}>Open</option>
+                <option value="Closed" {% if case.status == 'Closed' %}selected{% endif %}>Closed</option>
+                <option value="Pending" {% if case.status == 'Pending' %}selected{% endif %}>Pending</option>
+                <option value="Onhold" {% if case.status == 'Onhold' %}selected{% endif %}>On Hold</option>
+                <option value="Resolved" {% if case.status == 'Resolved' %}selected{% endif %}>Resolved</option>
+            </select>
+
+            <label for="next_hearing">Next Hearing</label>
+            <input type="date" id="next_hearing" name="next_hearing" value="{{ case.next_hearing }}" required>
+
+            <button type="submit">Update Case</button>
+        </form>
+    </div>
+</body>
+</html>

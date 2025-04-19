@@ -29,8 +29,22 @@
     header {
       background: #2c3e50;
       color: #fff;
-      padding: 20px;
-      text-align: center;
+      padding: 10px 0;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 15px;
+      padding-left: 20px;
+    }
+
+    .logo {
+      width: 150px;
+      height:auto;
+      border-radius: 5px;
+      object-fit: cover;
     }
 
     nav {
@@ -44,7 +58,7 @@
     nav a {
       color: white;
       text-decoration: none;
-      font-size: 18px;
+      font-size: 22px;
     }
 
     nav a:hover {
@@ -52,7 +66,7 @@
     }
 
     .btn-login {
-      display: inline-block;
+      display: inline-flex;
       margin-top: 10px;
       padding: 8px 16px;
       background: #2c3e50;
@@ -142,13 +156,23 @@
       nav a {
         font-size: 16px;
       }
+
+      .header-content {
+        flex-direction: column;
+        align-items: center;
+        padding-left: 0;
+        text-align: center;
+      }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>SLS Associates</h1>
+    <div class="header-content">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="SLS Logo" class="logo" />
+      <h1>SLS Associates</h1>
+    </div>
     <nav>
       <a href="#home">Home</a>
       <a href="#about">About Us</a>
@@ -157,20 +181,22 @@
       <a href="/login" class="btn-login">Login</a>
     </nav>
   </header>
+  
 
   <!-- Banner Image -->
   <div class="banner-wrapper">
     <img src="{{ url_for('static', filename='banner.jpg') }}" alt="Law office banner" class="banner-img">
   </div>
-  
+
   <div class="container">
     <section id="home">
       <h2>Welcome to SLS Associates</h2>
-      <p>We are a team of experienced advocates dedicated to providing professional and effective legal solutions. Our mission is to deliver trusted legal counsel backed by years of courtroom and advisory expertise. At SLS Associates, we prioritize clarity, commitment, and client satisfaction in every case. From complex litigation to everyday legal needs, we serve as your partners in justice and resolution. Our firm is committed to integrity, client-focused service, and results-driven representation.</p>     </section>
+      <p>We are a team of experienced advocates dedicated to providing professional and effective legal solutions. Our mission is to deliver trusted legal counsel backed by years of courtroom and advisory expertise. At SLS Associates, we prioritize clarity, commitment, and client satisfaction in every case. From complex litigation to everyday legal needs, we serve as your partners in justice and resolution. Our firm is committed to integrity, client-focused service, and results-driven representation.</p>
+    </section>
 
     <section id="about">
       <h2>About Us</h2>
-      <p>SLS Associates is a reputable law firm committed to delivering personalized and strategic legal solutions. With over a decade of experience, our team of dedicated advocates specializes in diverse fields including civil, criminal, corporate, and family law.Our commitment to excellence, ethical practice, and result-oriented representation has earned us the trust of individuals, startups, and established businesses alike. At SLS Associates, we believe in building lasting relationships based on transparency, trust, and unwavering advocacy.</p>
+      <p>SLS Associates is a reputable law firm committed to delivering personalized and strategic legal solutions. With over a decade of experience, our team of dedicated advocates specializes in diverse fields including civil, criminal, corporate, and family law. Our commitment to excellence, ethical practice, and result-oriented representation has earned us the trust of individuals, startups, and established businesses alike. At SLS Associates, we believe in building lasting relationships based on transparency, trust, and unwavering advocacy.</p>
     </section>
 
     <section id="services">

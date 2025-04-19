@@ -82,7 +82,7 @@
         }
 
         .success {
-            color: green;
+            color:green;
         }
 
         .error {
@@ -105,14 +105,22 @@
             </div>
             <button type="submit" class="login-btn">Login</button>
 
-            <!-- Show Flask flash messages -->
             {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <p class="message {{ category }}">{{ message }}</p>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
+  {% if messages %}
+    {% for category, message in messages %}
+      {% if message == 'Login successful!' or message == 'Invalid credentials. Try again.' or message == 'Please login first.' or message == 'You have been logged out.' %}
+        <div class="message {{ category }}">{{ message }}</div>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+            {% if error %}
+                <div class="message error">{{ error }}</div>
+            {% endif %}
+            {% if success %}
+                <div class="message success">{{ success }}</div>
+            {% endif %}
         </form>
     </div>
 
