@@ -4,14 +4,14 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/preenka/SLS-Associates.git'  // Replace with your actual repo
+                git branch: 'main', url: 'https://github.com/preenka/SLS-Associates.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("sls-associates:latest")
+                    dockerImage = docker.build('sls-associates:latest')
                 }
             }
         }
