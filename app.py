@@ -107,7 +107,6 @@ def delete_case(case_id):
 
     conn.commit()
     conn.close()
-    flash("Case deleted successfully!", "info")
     return redirect('/dashboard')
 
 @app.route('/edit/<int:case_id>', methods=['GET', 'POST'])
@@ -132,7 +131,6 @@ def edit(case_id):
         ''', (client_name, title, status, next_hearing, case_id, session['username']))
         conn.commit()
         conn.close()
-        flash("Case updated successfully!", "success")
         return redirect('/dashboard')
 
     # GET: Show form with existing case data
@@ -145,8 +143,6 @@ def edit(case_id):
         return redirect('/dashboard')
 
     return render_template('edit.html', case=case)
-
-
-
 if __name__ == '__main__':
-    app.run(debug=True)
+ app.run(debug=True, host='0.0.0.0', port=5000)
+
