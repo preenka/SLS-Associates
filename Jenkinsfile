@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'sls-associates'
-        CONTAINER_NAME = 'sls-associates-container'
-        PORT = '8000'
+        IMAGE_NAME = 'jenkins/jenkins:jdk17'
+        CONTAINER_NAME = 'my-jenkins-container'
+        PORT = '9090'
     }
 
     stages {
