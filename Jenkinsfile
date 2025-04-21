@@ -2,9 +2,10 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'jenkins/jenkins:jdk17'
-        CONTAINER_NAME = 'my-jenkins-container'
-        PORT = '9090'
+        IMAGE_NAME = "SLS-Associate"
+        IMAGE_TAG = "v1"
+        FULL_IMAGE_NAME = "${IMAGE_NAME}:${IMAGE_TAG}"
+        CONTAINER_NAME = "SLS-Associates"
     }
 
     stages {
@@ -14,23 +15,19 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Cleanup Old Container (Optional)') {
             steps {
                 script {
-                    // Build Docker image
-                    dockerImage = docker.build("${IMAGE_NAME}:latest")
+                    sh "docker rm -f $CONTAINER_NAME || true"
                 }
             }
         }
 
-        stage('Stop Existing Container') {
+        stage('Build Docker Image') {
             steps {
                 script {
-                    // Stop and remove the old container if it exists
-                    sh """
-                        docker stop ${CONTAINER_NAME} || true
-                        docker rm ${CONTAINER_NAME} || true
-                    """
+                    sh 'docker version' // Verify Docker works
+                    sh "docker build -t $FULL_IMAGE_NAME ."
                 }
             }
         }
@@ -38,10 +35,7 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                    // Run the new Docker container with the correct port binding
-                    sh """
-                        docker run -d -p ${PORT}:${PORT} --name ${CONTAINER_NAME} ${IMAGE_NAME}:latest
-                    """
+                    sh 'docker run -d -p 5001:5000 --name SLS_container SLS_app:v1'
                 }
             }
         }
