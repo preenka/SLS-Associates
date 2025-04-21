@@ -17,6 +17,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
+                    // Build Docker image
                     dockerImage = docker.build("${IMAGE_NAME}:latest")
                 }
             }
@@ -26,8 +27,10 @@ pipeline {
             steps {
                 script {
                     // Stop and remove the old container if it exists
-                    sh "docker stop ${CONTAINER_NAME} || true"
-                    sh "docker rm ${CONTAINER_NAME} || true"
+                    sh """
+                        docker stop ${CONTAINER_NAME} || true
+                        docker rm ${CONTAINER_NAME} || true
+                    """
                 }
             }
         }
@@ -35,7 +38,10 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                    dockerImage.run("-d -p ${PORT}:${PORT} --name ${CONTAINER_NAME}")
+                    // Run the new Docker container with the correct port binding
+                    sh """
+                        docker run -d -p ${PORT}:${PORT} --name ${CONTAINER_NAME} ${IMAGE_NAME}:latest
+                    """
                 }
             }
         }

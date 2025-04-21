@@ -1,25 +1,21 @@
-# Use official lightweight Python image
+# Use official Python image
 FROM python:3.10-slim
 
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies (optional, if needed by pip packages)
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy requirements first (leverage Docker cache)
-COPY requirements.txt .
-
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the rest of the app
+# Copy files
 COPY . .
 
-# Expose Flask app port
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Set environment variables for Flask (optional, but good practice)
+ENV FLASK_APP=app.py
+ENV FLASK_ENV=development
+
+# Expose the port Flask runs on (if you prefer 8000, that's fine, but default is 5000)
 EXPOSE 8000
 
-# Run the Flask app
-CMD ["python", "app.py"]
+# Run Flask app using 'flask run' command, with 0.0.0.0 to make it accessible externally
+CMD ["flask", "run", "--host=0.0.0.0", "--port=8000"]
