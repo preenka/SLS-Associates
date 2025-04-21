@@ -14,8 +14,7 @@ RUN apt-get update && \
     docker.io && \
     rm -rf /var/lib/apt/lists/*
 
-# Add Jenkins user to the Docker group (optional, if running Jenkins inside)
-RUN usermod -aG docker jenkins
+# (Removed: usermod -aG docker jenkins)
 
 # Set work directory
 WORKDIR /app
