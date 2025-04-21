@@ -1,21 +1,34 @@
-# Use official Python image
+# Use an official Python runtime
 FROM python:3.10-slim
 
-# Set working directory
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Install system dependencies for Tkinter, OpenCV, and Docker
+RUN apt-get update && \
+    apt-get install -y \
+    python3-tk \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    docker.io && \
+    rm -rf /var/lib/apt/lists/*
+
+# Add Jenkins user to the Docker group (optional, if running Jenkins inside)
+RUN usermod -aG docker jenkins
+
+# Set work directory
 WORKDIR /app
 
-# Copy files
-COPY . .
+# Copy everything into the container
+COPY . /app
 
-# Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Install Python dependencies
+RUN pip install --upgrade pip && \
+    pip install --timeout=300 -r requirements.txt
 
-# Set environment variables for Flask (optional, but good practice)
-ENV FLASK_APP=app.py
-ENV FLASK_ENV=development
+# Expose the port Flask runs on (if needed)
+EXPOSE 5000
 
-# Expose the port Flask runs on (if you prefer 8000, that's fine, but default is 5000)
-EXPOSE 8000
-
-# Run Flask app using 'flask run' command, with 0.0.0.0 to make it accessible externally
-CMD ["flask", "run", "--host=0.0.0.0", "--port=8000"]
+# Run the app
+CMD ["python", "app.py"]
