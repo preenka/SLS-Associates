@@ -2,10 +2,10 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "SLS-Associate"
+        IMAGE_NAME = "sls-associate"
         IMAGE_TAG = "v1"
         FULL_IMAGE_NAME = "${IMAGE_NAME}:${IMAGE_TAG}"
-        CONTAINER_NAME = "SLS-Associates"
+        CONTAINER_NAME = "sls-container"
     }
 
     stages {
@@ -15,10 +15,10 @@ pipeline {
             }
         }
 
-        stage('Cleanup Old Container (Optional)') {
+        stage('Cleanup Old Container') {
             steps {
                 script {
-                    sh "docker rm -f $CONTAINER_NAME || true"
+                    sh "docker rm -f ${CONTAINER_NAME} || true"
                 }
             }
         }
@@ -26,8 +26,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker version' // Verify Docker works
-                    sh "docker build -t $FULL_IMAGE_NAME ."
+                    sh "docker build -t ${FULL_IMAGE_NAME} ."
                 }
             }
         }
@@ -35,9 +34,18 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                    sh 'docker run -d -p 5001:5000 --name SLS_container SLS_app:v1'
+                    sh "docker run -d -p 5001:5000 --name ${CONTAINER_NAME} ${FULL_IMAGE_NAME}"
                 }
             }
+        }
+    }
+
+    post {
+        failure {
+            echo "Build failed. Check logs above."
+        }
+        success {
+            echo "Container '${CONTAINER_NAME}' running at port 5001!"
         }
     }
 }
