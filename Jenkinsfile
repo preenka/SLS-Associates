@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = "sls-associate"
-        IMAGE_TAG = "v1"
+        IMAGE_TAG = "v2"
         FULL_IMAGE_NAME = "${IMAGE_NAME}:${IMAGE_TAG}"
         CONTAINER_NAME = "sls-container"
     }
