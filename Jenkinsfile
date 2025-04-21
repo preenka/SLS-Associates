@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = "sls-associate"
-        IMAGE_TAG = "v1"
+        IMAGE_TAG = "v2"  // Adjusted to reflect the image version
         FULL_IMAGE_NAME = "${IMAGE_NAME}:${IMAGE_TAG}"
         CONTAINER_NAME = "sls-container"
     }
@@ -18,7 +18,7 @@ pipeline {
         stage('Cleanup Old Container') {
             steps {
                 script {
-                    sh "docker rm -f ${CONTAINER_NAME} || true"
+                    bat "docker rm -f ${CONTAINER_NAME} || echo 'No container to remove'"
                 }
             }
         }
@@ -26,7 +26,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh "docker build -t ${FULL_IMAGE_NAME} ."
+                    bat "docker build -t ${FULL_IMAGE_NAME} ."
                 }
             }
         }
@@ -34,7 +34,7 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                    sh "docker run -d -p 5001:5000 --name ${CONTAINER_NAME} ${FULL_IMAGE_NAME}"
+                    bat "docker run -d -p 5001:5000 --name ${CONTAINER_NAME} ${FULL_IMAGE_NAME}"
                 }
             }
         }
@@ -45,7 +45,7 @@ pipeline {
             echo "Build failed. Check logs above."
         }
         success {
-            echo "Container '${CONTAINER_NAME}' running at port 5001!"
+            echo "Container '${CONTAINER_NAME}' is running at port 5001!"
         }
     }
 }
